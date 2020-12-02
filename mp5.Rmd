@@ -2,10 +2,11 @@
 title: "Put a real title here"
 subtitle: "SDS 192: MP5"
 author: 
-- name: Author One
+- name: Sethatevy Bong
   affiliation: Smith College
-- name: Author Two
+- name: Esa Schenck
   affiliation: Smith College
+-name: Veronica Kessler  
 date: "`r format(Sys.Date(), '%B %e, %Y')`"
 output: 
   html_document:
