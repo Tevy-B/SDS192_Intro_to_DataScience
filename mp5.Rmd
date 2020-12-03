@@ -62,6 +62,14 @@ What is this article about? [^github]
 
 ## Exploratory data analysis
 
+```{sql}
+SELECT duration, birth_year, gender, start_station_id FROM citibike.trips
+WHERE duration > 600
+AND user_type = 'subscriber'
+AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
+```
+
+
 Make sure that you can get this chunk to run:
 
 ```{sql}
