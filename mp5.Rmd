@@ -62,7 +62,7 @@ What is this article about? [^github]
 
 ## Exploratory data analysis
 
-```{sql}
+```{sql, connection=db, output.var = "Trips_during_school_year"}
 SELECT duration, birth_year, gender, start_station_id FROM citibike.trips
 WHERE duration > 600
 AND user_type = 'subscriber'
