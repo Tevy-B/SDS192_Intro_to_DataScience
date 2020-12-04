@@ -99,22 +99,6 @@ If you want to save the results of your query as a data frame, that you can use 
 SELECT * FROM airports LIMIT 10;
 ```
 
-```{sql connection=db, output.var = "Trips"}
-SELECT duration, birth_year, gender
- FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber';
-
-```
-
-```{sql connection=db, output.var = "Months Station"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
-
-```
-
-
-
 Now we have this object in R:
 
 ```{r}
@@ -135,6 +119,27 @@ leaflet() %>%
     popup = ~name
   )
 ```
+
+
+```{sql connection=db, output.var = "Trips"}
+SELECT duration, birth_year, gender
+ FROM citibike.trips
+WHERE duration > 600
+AND user_type = 'subscriber';
+
+```
+
+
+# Station Data
+
+```{sql connection=db, output.var = "Months Station"}
+SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
+ FROM citibike.station_months 
+```
+
+
+
+
 
 
 ## Analysis
