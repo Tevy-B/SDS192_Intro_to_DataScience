@@ -85,10 +85,65 @@ older_than_thirty <- Trips %>%
   group_by(birth_year)
 ```
 
+## Option 1 for graphs -- total trips people of each age group took
 
-## next we create a bar graph 
+```{r}
+Trips %>% 
+  group_by(birth_year) %>% 
+  filter(birth_year >= 1957) %>% 
+  summarize(total = sum(n())) %>%
+  ggplot(aes(x = birth_year, y = total)) + 
+  geom_col()
+```
 
 
+### You could add gender
+
+```{r}
+Trips %>% 
+  group_by(birth_year, gender) %>% 
+  filter(birth_year >= 1957) %>% 
+  summarize(total = sum(n())) %>%
+  ggplot(aes(x = birth_year, y = total, fill = factor(gender))) + 
+  geom_col()
+```
+Note: we still don't know which binary gender is 1 and which is 2.
+ALSO NOTE: I'm pretty sure nonbinary is 0
+
+
+## Option 2 for graphs -- average duration of trips people of each age group took
+
+```{r}
+Trips %>% 
+  group_by(birth_year) %>% 
+  filter(birth_year >= 1957) %>% 
+  summarize(total = sum(n()),
+            total_sec = sum(duration),
+            total_min = total_sec/60,
+            avg_min = total_min/total) %>%
+  ggplot(aes(x = birth_year, y = avg_min)) + 
+  geom_col()
+```
+
+
+### You could add gender
+
+```{r}
+Trips %>% 
+  group_by(birth_year, gender) %>% 
+  filter(birth_year >= 1957) %>% 
+  summarize(total = sum(n()),
+            total_sec = sum(duration),
+            total_min = total_sec/60,
+            avg_min = total_min/total) %>%
+  ggplot(aes(x = birth_year, y = avg_min , fill = factor(gender))) + 
+  geom_col()
+```
+
+Okay, I have no idea why those graphs look so different but I think that's the general idea
+
+
+# Code Ben left as examples 
 Make sure that you can get this chunk to run:
 
 ```{sql}
@@ -100,22 +155,6 @@ If you want to save the results of your query as a data frame, that you can use 
 ```{sql, connection=db, output.var="first_ten_airports"}
 SELECT * FROM airports LIMIT 10;
 ```
-
-```{sql connection=db, output.var = "Trips"}
-SELECT duration, birth_year, gender
- FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber';
-
-```
-
-```{sql connection=db, output.var = "Months Station"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
-
-```
-
-
 
 Now we have this object in R:
 
@@ -137,6 +176,27 @@ leaflet() %>%
     popup = ~name
   )
 ```
+
+
+```{sql connection=db, output.var = "Trips"}
+SELECT duration, birth_year, gender
+ FROM citibike.trips
+WHERE duration > 600
+AND user_type = 'subscriber';
+
+```
+
+
+# Station Data
+
+```{sql connection=db, output.var = "Months Station"}
+SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
+ FROM citibike.station_months 
+```
+
+
+
+
 
 
 ## Analysis
