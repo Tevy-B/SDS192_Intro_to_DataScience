@@ -134,9 +134,18 @@ AND user_type = 'subscriber';
 
 # Station Data
 
-```{sql connection=db, output.var = "Months Station"}
+```{sql connection=db, output.var = "Popular_Stations"}
 SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
  FROM citibike.station_months 
+```
+
+
+```{r}
+Top_50_Stations <- Popular_Stations %>% head(50) 
+leaflet(Top_50_Stations) %>% 
+  addTiles() %>%
+  addMarkers(lng = ~avg_lon, lat = ~avg_lat, popup = ~name
+             )
 ```
 
 
