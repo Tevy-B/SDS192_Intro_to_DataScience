@@ -38,6 +38,8 @@ references:
 library(tidyverse)
 library(sds192)
 library(RMySQL)
+library(leaflet)
+library(sf)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -73,14 +75,14 @@ AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
 # We want to group those users younger than 30 and older than 30 to know which group uses the bike system more frequently
 
 ```{r}
-thirty_or_younger <- Trips %>%
+thirty_or_younger <- Trips_during_school_year %>%
    filter(birth_year>=1987) %>%
  group_by(birth_year) %>% 
 arrange(birth_year)
 ```
 
 ```{r}
-older_than_thirty <- Trips %>% 
+older_than_thirty <- Trips_during_school_year %>% 
   filter(birth_year >= 1957, birth_year <= 1987) %>% 
   group_by(birth_year)
 ```
