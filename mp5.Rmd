@@ -38,8 +38,6 @@ references:
 library(tidyverse)
 library(sds192)
 library(RMySQL)
-library(leaflet)
-library(sf)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -75,18 +73,20 @@ AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
 # We want to group those users younger than 30 and older than 30 to know which group uses the bike system more frequently
 
 ```{r}
-thirty_or_younger <- Trips_during_school_year %>%
+thirty_or_younger <- Trips %>%
    filter(birth_year>=1987) %>%
  group_by(birth_year) %>% 
 arrange(birth_year)
 ```
 
 ```{r}
-older_than_thirty <- Trips_during_school_year %>% 
+older_than_thirty <- Trips %>% 
   filter(birth_year >= 1957, birth_year <= 1987) %>% 
   group_by(birth_year)
 ```
 
+
+## next we create a bar graph 
 
 
 Make sure that you can get this chunk to run:
@@ -100,6 +100,22 @@ If you want to save the results of your query as a data frame, that you can use 
 ```{sql, connection=db, output.var="first_ten_airports"}
 SELECT * FROM airports LIMIT 10;
 ```
+
+```{sql connection=db, output.var = "Trips"}
+SELECT duration, birth_year, gender
+ FROM citibike.trips
+WHERE duration > 600
+AND user_type = 'subscriber';
+
+```
+
+```{sql connection=db, output.var = "Months Station"}
+SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
+ FROM citibike.station_months 
+
+```
+
+
 
 Now we have this object in R:
 
@@ -121,45 +137,6 @@ leaflet() %>%
     popup = ~name
   )
 ```
-
-
-```{sql connection=db, output.var = "Trips"}
-SELECT duration, birth_year, gender
- FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber';
-
-```
-
-
-# Station Data
-
-```{sql connection=db, output.var = "Popular_Stations"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
-```
-
-
-```{r}
-station_pal <- colorNumeric(
-  palette = "RdBu", 
-  domain = Top_50_Stations %>%
-    pull(num_starts) %>%
-    range())
-
-Top_50_Stations <- Popular_Stations %>% head(50) 
-leaflet(Top_50_Stations) %>% 
-  addTiles() %>%
-  addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
-    radius = ~sqrt(num_stops)*5,
-    color = ~station_pal(num_stops), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Number of Stops:", Top_50_Stations$num_stops), opacity = 50)
-```
-
-
-
-
-
 
 
 ## Analysis
