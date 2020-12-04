@@ -189,11 +189,32 @@ AND user_type = 'subscriber';
 
 # Station Data
 
-```{sql connection=db, output.var = "Months Station"}
+```{sql connection=db, output.var = "months_station"}
 SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
  FROM citibike.station_months 
 ```
 
+What stations get the most average rides (both starts and stops)?
+
+```{r}
+months_station <- months_station %>% 
+  select(-station_id) %>% 
+  mutate(trips = num_starts + num_stops) %>% 
+  group_by(name) %>% 
+  summarize(total_months = sum(n()),
+          total_trips = sum(trips),
+          avg_trips = total_trips/total_months,
+          avg_lat = first(avg_lat),
+          avg_lon = first(avg_lon)
+         )
+```
+
+
+```{r}
+months_station %>% 
+  ggplot(aes(x = name, y = avg_trips, fill = avg_trips)) +
+  geom_col()
+```
 
 
 
