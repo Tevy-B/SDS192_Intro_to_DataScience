@@ -72,6 +72,14 @@ AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
 
 # We want to group those users younger than 30 and older than 30 to know which group uses the bike system more frequently
 
+```{sql connection=db, output.var = "Trips"}
+SELECT duration, birth_year, gender
+ FROM citibike.trips
+WHERE duration > 600
+AND user_type = 'subscriber';
+
+```
+
 ```{r}
 thirty_or_younger <- Trips %>%
    filter(birth_year>=1987) %>%
@@ -101,13 +109,6 @@ If you want to save the results of your query as a data frame, that you can use 
 SELECT * FROM airports LIMIT 10;
 ```
 
-```{sql connection=db, output.var = "Trips"}
-SELECT duration, birth_year, gender
- FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber';
-
-```
 
 ```{sql connection=db, output.var = "Months Station"}
 SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
