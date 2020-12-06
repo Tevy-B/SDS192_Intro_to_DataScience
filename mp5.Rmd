@@ -60,6 +60,9 @@ knitr::opts_chunk$set(
 
 What is this article about? [^github]
 
+This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
+
+
 [^github]: Please see [our GitHub repository](https://github.com/sds192-s20/mp3-group-*) for complete code. 
 
 ## Exploratory data analysis
@@ -83,48 +86,43 @@ AND user_type = 'subscriber';
 ```
 
 ```{r}
-thirty_or_younger <- Trips %>%
-   filter(birth_year>=1987) %>%
- group_by(birth_year) %>% 
-arrange(birth_year)
+Trips_Age <- Trips %>% 
+  mutate(age_category = ifelse(birth_year >= 1987, "Thirthy or Younger", "Older Than Thirty"))
 ```
+
+
+## In our first graph we plotted it the total trips people of each age group took in 2017. 
 
 ```{r}
-older_than_thirty <- Trips %>% 
-  filter(birth_year >= 1957, birth_year <= 1987) %>% 
-  group_by(birth_year)
-```
-
-## Option 1 for graphs -- total trips people of each age group took
-
-```{r}
-Trips %>% 
-  group_by(birth_year) %>% 
-  filter(birth_year >= 1957) %>% 
-  summarize(total = sum(n())) %>%
-  ggplot(aes(x = birth_year, y = total)) + 
-  geom_col()
+Trips_Age %>% 
+  group_by(birth_year, age_category) %>% 
+   summarize(total = sum(n())/10000) %>%
+  ggplot(aes(x = birth_year, y = total, fill= age_category)) + 
+  geom_col()+
+  xlim(c(1957, 2005))+
+  labs(y= "Total Trips in Tens of Thousands")
 ```
 
 
-### You could add gender
+### In our second graph we wanted to find out which gender is more likely to use the bike system in New York City. We found that men are more incline than women to ride the public bikes.
 
 ```{r}
 Trips %>% 
   group_by(birth_year, gender) %>% 
-  filter(birth_year >= 1957) %>% 
+  filter(birth_year >= 1957, gender != 0) %>%
+  mutate(gender = ifelse(gender == 1, "Male", "Female")) %>% 
   summarize(total = sum(n())) %>%
-  ggplot(aes(x = birth_year, y = total, fill = factor(gender))) + 
+  ggplot(aes(x = birth_year, y = total, fill = gender)) + 
   geom_col()
 ```
-Note: we still don't know which binary gender is 1 and which is 2.
-ALSO NOTE: I'm pretty sure nonbinary is 0
 
+
+Esa, I dont think these two graphs  bellow are necesary since the change is not so different...
 
 ## Option 2 for graphs -- average duration of trips people of each age group took
 
 ```{r}
-Trips %>% 
+Trips_Age %>% 
   group_by(birth_year) %>% 
   filter(birth_year >= 1957) %>% 
   summarize(total = sum(n()),
@@ -135,8 +133,6 @@ Trips %>%
   geom_col()
 ```
 
-<<<<<<< HEAD
-=======
 
 ### You could add gender
 
@@ -239,11 +235,11 @@ SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
 
 ```{r}
 Top_50_Stations <- Popular_Stations %>%
-  pivot_longer(-name, names_to = "Stations", values_to = "count")%>%head(50) 
+ head(50) 
 ```
 
 ```{r}
-
+Top_50_Stations %>% 
 station_pal <- colorNumeric(
   palette = "RdBu", 
   domain = Top_50_Stations %>%
