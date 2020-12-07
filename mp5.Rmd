@@ -117,45 +117,12 @@ Trips %>%
 ```
 
 
-Esa, I dont think these two graphs  bellow are necesary since the change is not so different...
-
-## Option 2 for graphs -- average duration of trips people of each age group took
-
-```{r}
-Trips_Age %>% 
-  group_by(birth_year) %>% 
-  filter(birth_year >= 1957) %>% 
-  summarize(total = sum(n()),
-            total_sec = sum(duration),
-            total_min = total_sec/60,
-            avg_min = total_min/total) %>%
-  ggplot(aes(x = birth_year, y = avg_min)) + 
-  geom_col()
-```
-
-
-### You could add gender
-
-```{r}
-Trips %>% 
-  group_by(birth_year, gender) %>% 
-  filter(birth_year >= 1957) %>% 
-  summarize(total = sum(n()),
-            total_sec = sum(duration),
-            total_min = total_sec/60,
-            avg_min = total_min/total) %>%
-  ggplot(aes(x = birth_year, y = avg_min , fill = factor(gender))) + 
-  geom_col()
-```
->>>>>>> 0c466bce0c4011e60e84f75e62af7f2092663d8f
-
-Okay, I have no idea why those graphs look so different but I think that's the general idea
-
 
 # Code Ben left as examples 
 Make sure that you can get this chunk to run:
 
-```{sql}
+
+```{sql, connection=db}
 SHOW DATABASES;
 ```
 
@@ -206,8 +173,8 @@ SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
 What stations get the most average rides (both starts and stops)?
 
 ```{r}
-months_station <- months_station %>% 
-  select(-station_id) %>% 
+months_station_2 <- months_station %>% 
+  #select(-station_id) %>% 
   mutate(trips = num_starts + num_stops) %>% 
   group_by(name) %>% 
   summarize(total_months = sum(n()),
@@ -220,7 +187,7 @@ months_station <- months_station %>%
 
 
 ```{r}
-months_station %>% 
+months_station_2 %>% 
   ggplot(aes(x = name, y = avg_trips, fill = avg_trips)) +
   geom_col()
 ```
@@ -234,12 +201,8 @@ SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
 
 
 ```{r}
-Top_50_Stations <- Popular_Stations %>%
+ Top_50_Stations <- Popular_Stations %>%
  head(50) 
-```
-
-```{r}
-Top_50_Stations %>% 
 station_pal <- colorNumeric(
   palette = "RdBu", 
   domain = Top_50_Stations %>%
