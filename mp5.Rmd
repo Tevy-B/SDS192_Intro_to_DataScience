@@ -100,7 +100,8 @@ Trips_Age %>%
   ggplot(aes(x = birth_year, y = total, fill= age_category)) + 
   geom_col()+
   xlim(c(1957, 2005))+
-  labs(y= "Total Trips in Tens of Thousands")
+  labs(y= "Total Trips in Tens of Thousands", x= "Birth Year")+
+  ggtitle (" Use of the Citibike System According to Age")
 ```
 
 
@@ -171,6 +172,7 @@ SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
 ```
 
 What stations get the most average rides (both starts and stops)?
+Average numbers of trips per month:
 
 ```{r}
 months_station_2 <- months_station %>% 
@@ -178,43 +180,33 @@ months_station_2 <- months_station %>%
   mutate(trips = num_starts + num_stops) %>% 
   group_by(name) %>% 
   summarize(total_months = sum(n()),
-          total_trips = sum(trips),
-          avg_trips = total_trips/total_months,
+            total_starts = sum(num_starts), 
+          avg_trips = total_starts/total_months,
           avg_lat = first(avg_lat),
           avg_lon = first(avg_lon)
          )
 ```
 
 
-```{r}
-months_station_2 %>% 
-  ggplot(aes(x = name, y = avg_trips, fill = avg_trips)) +
-  geom_col()
-```
+
 # Station Data
 
-```{sql connection=db, output.var = "Popular_Stations"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
- ORDER BY num_starts DESC;
-```
-
 
 ```{r}
- Top_50_Stations <- Popular_Stations %>%
+ Top_50_Stations <- months_station_2 %>%
  head(50) 
 station_pal <- colorNumeric(
-  palette = "RdBu", 
+  palette = "Red", 
   domain = Top_50_Stations %>%
-    pull(num_starts) %>%
+    pull(avg_trips) %>%
     range())
 
 leaflet(Top_50_Stations) %>% 
   addTiles() %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
-    radius = ~sqrt(num_stops)*3,
-    color = ~station_pal(num_stops), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Number of Stops:", Top_50_Stations$num_stops), opacity = 50)
+    radius = ~sqrt(avg_trips)*3,
+    color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
+                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips), opacity = 100)
 ```
 
 
