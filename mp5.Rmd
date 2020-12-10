@@ -40,6 +40,7 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
+library(ggthemes)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -91,7 +92,7 @@ Trips_Age <- Trips %>%
 ```
 
 
-## In our first graph we plotted it the total trips people of each age group took in 2017. 
+## In our first graph we plotted it the total trips people of each age group took in 2017. We found that  older than 30-year old people use the systems more than 30-year old or younger. With people aged 25 and 32 being the group using the bike system more 25 thousand trips a year
 
 ```{r}
 Trips_Age %>% 
@@ -99,9 +100,13 @@ Trips_Age %>%
    summarize(total = sum(n())/10000) %>%
   ggplot(aes(x = birth_year, y = total, fill= age_category)) + 
   geom_col()+
+  scale_fill_manual(values = c("blue", "lightblue"))+
   xlim(c(1957, 2005))+
+   labs (title = " Use of the Citibike System According to Age in 2017")+
   labs(y= "Total Trips in Tens of Thousands", x= "Birth Year")+
-  ggtitle (" Use of the Citibike System According to Age")
+  labs(fill= "Age Category")+
+  theme(plot.title = element_text(colour = "black", hjust = 0.5, face = "bold"))
+ 
 ```
 
 
@@ -114,29 +119,13 @@ Trips %>%
   mutate(gender = ifelse(gender == 1, "Male", "Female")) %>% 
   summarize(total = sum(n())) %>%
   ggplot(aes(x = birth_year, y = total, fill = gender)) + 
-  geom_col()
-```
-
-
-
-# Code Ben left as examples 
-Make sure that you can get this chunk to run:
-
-
-```{sql, connection=db}
-SHOW DATABASES;
-```
-
-If you want to save the results of your query as a data frame, that you can use in any later R chunks, add the `connection` and `output.var` chunk options, like this:
-
-```{sql, connection=db, output.var="first_ten_airports"}
-SELECT * FROM airports LIMIT 10;
-```
-
-Now we have this object in R:
-
-```{r}
-first_ten_airports
+  geom_col()+
+   scale_fill_manual(values =c("Pink", "lightblue"))+
+  labs(title = "Gender Usage of the Bike System in 2017")+
+  theme(plot.title = element_text(colour = "black", hjust = 0.4, face = "bold"))+
+  labs(x= "Birth Year", y = "Total duration Trips?")+
+    labs(fill = "Gender")
+  
 ```
 
 Please see the [SQL chapter of the `bookdown` book](
@@ -144,15 +133,7 @@ https://rmarkdown.rstudio.com/authoring_knitr_engines.html%23sql#sql) for more i
 
 You can cite references using parentheses or not. @xie2016bookdown wrote about this. See also [@xie2016bookdown].
 
-```{r airport-map, fig.cap="Map of the first ten airports."}
-library(leaflet)
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(
-    data = first_ten_airports,
-    popup = ~name
-  )
-```
+
 
 
 ```{sql connection=db, output.var = "Trips"}
