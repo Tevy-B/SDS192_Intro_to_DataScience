@@ -40,6 +40,10 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
+<<<<<<< HEAD
+=======
+#library(ggthemes)
+>>>>>>> 2cd2375f538253bd9a5dbea104b0c01464372dba
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -54,6 +58,7 @@ knitr::opts_chunk$set(
   max.print = 20
 )
 ```
+
 
 
 ## Introduction
@@ -84,7 +89,7 @@ Note : The data that we used was [citibikenyc](https://www.citibikenyc.com/syste
 
 
 
-This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
+This article is about arguing whether age and gender are drivers for use the citibike system in New York and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
 
 
 [^github]: Please see [our GitHub repository](https://github.com/sds192-s20/mp3-group-*) for complete code. 
@@ -200,7 +205,7 @@ months_station_2 <- months_station %>%
  Top_50_Stations <- months_station_2 %>%
  head(50) 
 station_pal <- colorNumeric(
-  palette = "Red", 
+  palette = c("#FF9999", "#FF0000"), 
   domain = Top_50_Stations %>%
     pull(avg_trips) %>%
     range())
@@ -210,12 +215,80 @@ leaflet(Top_50_Stations) %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
     radius = ~sqrt(avg_trips)*3,
     color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips), opacity = 100)
+                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
+```
+
+# Weather Data
+
+```{r}
+weather_data <- read.csv("weather2017.csv")
+```
+
+```{r}
+weather_data_long <- weather_data %>% pivot_longer(c(PRCP, SNOW), names_to = "prcp_type", values_to = "amount")
+
+```
+
+```{sql connection=db, output.var = "all_trips"}
+SELECT CAST(start_time AS DATE) AS time
+ FROM citibike.trips
+```
+ NOTE:  to convert the date data type I used resources https://www.essentialsql.com/datatype-conversion-in-sql-using-cast-and-convert/ and https://www.w3schools.com/sql/sql_datatypes.asp
+ 
+[For the count and group by I used https://www.w3schools.com/sql/sql_groupby.asp] NO LONGER RELEVANT
+
+AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
+
+```{r}
+all_trips_grouped <- all_trips %>% 
+  group_by(time) %>% 
+  summarize(num_trips = n())
+```
+
+```{r}
+trips_weather <- weather_data_long %>% 
+  full_join(all_trips_grouped, by=c('DATE'='time')) 
+
+trips_weather[is.na(trips_weather)] <- 0
 ```
 
 
+```{r}
+#Type & amount of precipiation
+trips_weather %>% 
+  filter(amount > 0) %>% 
+  ggplot(aes(x = amount, y = num_trips, color = prcp_type)) + 
+  geom_point() +
+  scale_color_manual(values = c('green', 'deepskyblue'))
+```
 
+```{r}
+#Temperature analysis
+trips_weather %>% 
+  group_by(DATE) %>% 
+  mutate(total_prcp = sum(amount),
+         Precipitation = case_when(total_prcp >= 2 ~ 'High',
+                                   total_prcp >= 1 ~ 'Medium',
+                                   total_prcp < 1 ~ 'Low'))%>% 
+  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
+  geom_point() +
+  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
+```
+ case when from https://www.statology.org/conditional-mutating-r/
 
+```{r}
+trips_weather %>% 
+  group_by(DATE) %>% 
+  mutate(wind_speed = (WSF2/10)*2.2369)
+  
+```
+  mutate(Wind = case_when(total_prcp >= 2 ~ 'High',
+                                   total_prcp >= 1 ~ 'Medium',
+                                   total_prcp < 1 ~ 'Low'))%>% 
+  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
+  geom_point() +
+  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
+```
 
 
 ## Analysis
