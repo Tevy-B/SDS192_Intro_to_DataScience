@@ -178,7 +178,7 @@ months_station_2 <- months_station %>%
  Top_50_Stations <- months_station_2 %>%
  head(50) 
 station_pal <- colorNumeric(
-  palette = "Red", 
+  palette = c("#FF9999", "#FF0000"), 
   domain = Top_50_Stations %>%
     pull(avg_trips) %>%
     range())
@@ -188,7 +188,7 @@ leaflet(Top_50_Stations) %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
     radius = ~sqrt(avg_trips)*3,
     color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips), opacity = 100)
+                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
 ```
 
 # Weather Data
