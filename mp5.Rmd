@@ -40,7 +40,7 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
-library(rwunderground)
+#library(ggthemes)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -93,7 +93,7 @@ Trips_Age <- Trips %>%
 ```
 
 
-## In our first graph we plotted it the total trips people of each age group took in 2017. 
+## In our first graph we plotted it the total trips people of each age group took in 2017. We found that  older than 30-year old people use the systems more than 30-year old or younger. With people aged 25 and 32 being the group using the bike system more 25 thousand trips a year
 
 ```{r}
 Trips_Age %>% 
@@ -101,8 +101,13 @@ Trips_Age %>%
    summarize(total = sum(n())/10000) %>%
   ggplot(aes(x = birth_year, y = total, fill= age_category)) + 
   geom_col()+
+  scale_fill_manual(values = c("blue", "lightblue"))+
   xlim(c(1957, 2005))+
-  labs(y= "Total Trips in Tens of Thousands")
+   labs (title = " Use of the Citibike System According to Age in 2017")+
+  labs(y= "Total Trips in Tens of Thousands", x= "Birth Year")+
+  labs(fill= "Age Category")+
+  theme(plot.title = element_text(colour = "black", hjust = 0.5, face = "bold"))
+ 
 ```
 
 
@@ -115,29 +120,13 @@ Trips %>%
   mutate(gender = ifelse(gender == 1, "Male", "Female")) %>% 
   summarize(total = sum(n())) %>%
   ggplot(aes(x = birth_year, y = total, fill = gender)) + 
-  geom_col()
-```
-
-
-
-# Code Ben left as examples 
-Make sure that you can get this chunk to run:
-
-
-```{sql, connection=db}
-SHOW DATABASES;
-```
-
-If you want to save the results of your query as a data frame, that you can use in any later R chunks, add the `connection` and `output.var` chunk options, like this:
-
-```{sql, connection=db, output.var="first_ten_airports"}
-SELECT * FROM airports LIMIT 10;
-```
-
-Now we have this object in R:
-
-```{r}
-first_ten_airports
+  geom_col()+
+   scale_fill_manual(values =c("Pink", "lightblue"))+
+  labs(title = "Gender Usage of the Bike System in 2017")+
+  theme(plot.title = element_text(colour = "black", hjust = 0.4, face = "bold"))+
+  labs(x= "Birth Year", y = "Total duration Trips?")+
+    labs(fill = "Gender")
+  
 ```
 
 Please see the [SQL chapter of the `bookdown` book](
@@ -145,15 +134,7 @@ https://rmarkdown.rstudio.com/authoring_knitr_engines.html%23sql#sql) for more i
 
 You can cite references using parentheses or not. @xie2016bookdown wrote about this. See also [@xie2016bookdown].
 
-```{r airport-map, fig.cap="Map of the first ten airports."}
-library(leaflet)
-leaflet() %>%
-  addTiles() %>%
-  addMarkers(
-    data = first_ten_airports,
-    popup = ~name
-  )
-```
+
 
 
 ```{sql connection=db, output.var = "Trips"}
@@ -173,6 +154,7 @@ SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
 ```
 
 What stations get the most average rides (both starts and stops)?
+Average numbers of trips per month:
 
 ```{r}
 months_station_2 <- months_station %>% 
@@ -180,43 +162,33 @@ months_station_2 <- months_station %>%
   mutate(trips = num_starts + num_stops) %>% 
   group_by(name) %>% 
   summarize(total_months = sum(n()),
-          total_trips = sum(trips),
-          avg_trips = total_trips/total_months,
+            total_starts = sum(num_starts), 
+          avg_trips = total_starts/total_months,
           avg_lat = first(avg_lat),
           avg_lon = first(avg_lon)
          )
 ```
 
 
-```{r}
-months_station_2 %>% 
-  ggplot(aes(x = name, y = avg_trips, fill = avg_trips)) +
-  geom_col()
-```
+
 # Station Data
 
-```{sql connection=db, output.var = "Popular_Stations"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
- ORDER BY num_starts DESC;
-```
-
 
 ```{r}
- Top_50_Stations <- Popular_Stations %>%
+ Top_50_Stations <- months_station_2 %>%
  head(50) 
 station_pal <- colorNumeric(
-  palette = "RdBu", 
+  palette = "Red", 
   domain = Top_50_Stations %>%
-    pull(num_starts) %>%
+    pull(avg_trips) %>%
     range())
 
 leaflet(Top_50_Stations) %>% 
   addTiles() %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
-    radius = ~sqrt(num_stops)*3,
-    color = ~station_pal(num_stops), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Number of Stops:", Top_50_Stations$num_stops), opacity = 50)
+    radius = ~sqrt(avg_trips)*3,
+    color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
+                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips), opacity = 100)
 ```
 
 # Weather Data
@@ -230,7 +202,66 @@ weather_data_long <- weather_data %>% pivot_longer(c(PRCP, SNOW), names_to = "pr
 
 ```
 
+```{sql connection=db, output.var = "all_trips"}
+SELECT CAST(start_time AS DATE) AS time
+ FROM citibike.trips
+```
+ NOTE:  to convert the date data type I used resources https://www.essentialsql.com/datatype-conversion-in-sql-using-cast-and-convert/ and https://www.w3schools.com/sql/sql_datatypes.asp
+ 
+[For the count and group by I used https://www.w3schools.com/sql/sql_groupby.asp] NO LONGER RELEVANT
 
+AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
+
+```{r}
+all_trips_grouped <- all_trips %>% 
+  group_by(time) %>% 
+  summarize(num_trips = n())
+```
+
+```{r}
+trips_weather <- weather_data_long %>% 
+  full_join(all_trips_grouped, by=c('DATE'='time')) 
+
+trips_weather[is.na(trips_weather)] <- 0
+```
+
+
+```{r}
+#Type & amount of precipiation
+trips_weather %>% 
+  filter(amount > 0) %>% 
+  ggplot(aes(x = amount, y = num_trips, color = prcp_type)) + 
+  geom_point() +
+  scale_color_manual(values = c('green', 'deepskyblue'))
+```
+
+```{r}
+#Temperature analysis
+trips_weather %>% 
+  group_by(DATE) %>% 
+  mutate(total_prcp = sum(amount),
+         Precipitation = case_when(total_prcp >= 2 ~ 'High',
+                                   total_prcp >= 1 ~ 'Medium',
+                                   total_prcp < 1 ~ 'Low'))%>% 
+  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
+  geom_point() +
+  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
+```
+ case when from https://www.statology.org/conditional-mutating-r/
+
+```{r}
+trips_weather %>% 
+  group_by(DATE) %>% 
+  mutate(wind_speed = (WSF2/10)*2.2369)
+  
+```
+  mutate(Wind = case_when(total_prcp >= 2 ~ 'High',
+                                   total_prcp >= 1 ~ 'Medium',
+                                   total_prcp < 1 ~ 'Low'))%>% 
+  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
+  geom_point() +
+  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
+```
 
 
 ## Analysis
