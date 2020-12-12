@@ -40,6 +40,7 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
+library(rwunderground)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -56,11 +57,12 @@ knitr::opts_chunk$set(
 ```
 
 
+
 ## Introduction
 
 What is this article about? [^github]
 
-This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
+This article is about arguing whether age and gender are drivers for use the citibike system in New York and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
 
 
 [^github]: Please see [our GitHub repository](https://github.com/sds192-s20/mp3-group-*) for complete code. 
@@ -217,7 +219,16 @@ leaflet(Top_50_Stations) %>%
                            "Number of Stops:", Top_50_Stations$num_stops), opacity = 50)
 ```
 
+# Weather Data
 
+```{r}
+weather_data <- read.csv("weather2017.csv")
+```
+
+```{r}
+weather_data_long <- weather_data %>% pivot_longer(c(PRCP, SNOW), names_to = "prcp_type", values_to = "amount")
+
+```
 
 
 
