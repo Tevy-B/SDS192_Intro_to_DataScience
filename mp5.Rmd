@@ -61,7 +61,7 @@ knitr::opts_chunk$set(
 Have you wondered about the power of bicycles to fight climate change? 
  Last spring when a friend of mine at Smith told me that she wanted a car so she could have more independence, I immediately screamed inside myself thinking in the tons of carbon dioxide that that car would deliver to the environment in its lifespan.  I told her that she should wait to have a lot of money and buy an electric car instead or get a bicycle in the meantime. She laughed and seemed to agree. Our decisions today have a long and imperceptible effect especially when we talk about global warming and climate change.
 
- According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution. (https://climate.nasa.gov/causes/)
+ According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution.
 
  Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment ). The college voted to exclude Smith College’s endowment from any future investment with such industry. . This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
 
@@ -72,8 +72,8 @@ According to a Greenhouse Gas emission report for NYC in 2016, 30% of the city e
 
 ##Figure 1.
 
-![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20ANNUAL%20EMISSIONS%20BY%20SOURCE.png)
-##Figure 2. ![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20EMISSIONS%20BY%20SECTOR.png)
+![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20ANNUAL%20EMISSIONS%20BY%20SOURCE.png?raw=true)
+##Figure 2. ![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20EMISSIONS%20BY%20SECTOR.png?raw=true)
 
 In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
 
