@@ -1,5 +1,5 @@
 ---
-title: "Put a real title here"
+title: "The power of Bicycles to Fight Climate Change"
 subtitle: "SDS 192: MP5"
 author: 
 - name: Sethatevy Bong
@@ -40,7 +40,6 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
-library(ggthemes)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -59,7 +58,30 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-What is this article about? [^github]
+Have you wondered about the power of bicycles to fight climate change? 
+ Last spring when a friend of mine at Smith told me that she wanted a car so she could have more independence, I immediately screamed inside myself thinking in the tons of carbon dioxide that that car would deliver to the environment in its lifespan.  I told her that she should wait to have a lot of money and buy an electric car instead or get a bicycle in the meantime. She laughed and seemed to agree. Our decisions today have a long and imperceptible effect especially when we talk about global warming and climate change.
+
+ According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution. (https://climate.nasa.gov/causes/)
+
+ Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment ). The college voted to exclude Smith College’s endowment from any future investment with such industry. . This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
+
+Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red hair girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” ![] (https://www.youtube.com/watch?v=TMrtLsQbaok) Greta Thunberg, an student and environmental activist, became the youngest and most outspoken critic of the lack of global policies to fight climate change. Perhaps the most heroic act we might remember about Ms. Thunberg is her decision to sail instead of flying from Europe to the United States to attend the 2019 UN Climate Action Summit. 
+
+What does all of that has to do with the citylike system in New York City and the data presented in this project? 
+According to a Greenhouse Gas emission report for NYC in 2016, 30% of the city emissions came from the transportation system. Cars are the largest generators of emission with 96% footprint. Cars powered with gasoline composed 80% of the transportation base emissions. See figures 1 and 2. [^1]
+
+##Figure 1.
+
+![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20ANNUAL%20EMISSIONS%20BY%20SOURCE.png)
+##Figure 2. ![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20EMISSIONS%20BY%20SECTOR.png)
+
+In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
+
+#Our data:
+
+Note : The data that we used was [citibikenyc](https://www.citibikenyc.com/system-data).  Trips made by staff members in their labor activities was removed as well as any trips lower than 60 second as they were false starts.
+
+
 
 This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
 
@@ -202,6 +224,8 @@ What did you discover?
 ## Conclusion
 
 What did you *learn* about the data set your explored?  
+
+[^1]: [Inventory of New York City Greenhouse Gas Emissions in 2016](https://www1.nyc.gov/assets/sustainability/downloads/pdf/publications/GHG%20Inventory%20Report%20Emission%20Year%202016.pdf)
 
 ---
 
