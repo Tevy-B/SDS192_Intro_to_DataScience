@@ -1,6 +1,5 @@
 ---
-
-title: "**The power of Bicycles to Fight Climate Change**"
+title: "The power of Bicycles to Fight Climate Change"
 subtitle: "SDS 192: MP5"
 author: 
 - name: Sethatevy Bong
@@ -61,19 +60,20 @@ knitr::opts_chunk$set(
 ```
 
 
-## Introduction
+# Introduction
 
   Have you wondered about the power of bicycles to fight climate change? 
 
- Last spring when a friend of mine at Smith told me that she wanted a car so she could have more independence, I immediately screamed inside myself thinking in the tons of carbon dioxide that that car would deliver to the environment in its lifespan.  I told her that she should wait to have a lot of money and buy an electric car instead or get a bicycle in the meantime. She laughed and seemed to agree. Our decisions today have a long and imperceptible effect especially when we talk about global warming and climate change.
+ Last spring when a Smithie friend of mine said she wanted a car, I internally screamed -- think of the carbon emissions!!  I suggested she save money for an electric car, and bike in the meantime. She laughed but agreed. 
+ 
+ **Our decisions today have a silent effect on climate change.** We don't see it now, bit it's slowly growing.
 
- According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution.
+ According to [NASA](https://climate.nasa.gov/causes/), gases in the atmosphere trap heat. One of those gases is carbon dioxide (CO2), which is released through mostly human activities -- such as burning fossil fuels. We have increased the levels of CO2 by 47% since the industrial revolution.
 
  Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment ). The college voted to exclude Smith's endowment from any future investment with such industry. 
- This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
 
-  Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red haired girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” (Greta Thunberg to World leaders- YouTube).
-Greta Thunberg, an student and environmental activist, became the youngest and most outspoken critic of the lack of global policies to fight climate change. Perhaps the most heroic act we might remember about Ms. Thunberg is her decision to sail instead of flying from Europe to the United States to attend the 2019 UN Climate Action Summit. 
+  Last year we also met a 17 year old Swiss girl known for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” (Greta Thunberg to World leaders- YouTube).
+Greta Thunberg, a young environmental activist, even sailed Europe to the US for the 2019 UN Climate Action Summit to reduce her carbon footprint. 
 
 
 ```{r, echo=FALSE}
@@ -84,9 +84,9 @@ library(vembedr)
 ```
  
 
-  What does all of that has to do with the citylike system in New York City and the data presented in this project? 
+  What does all of that has to do with the NYC Citibike system? 
 
-  According to a Greenhouse Gas emission report for NYC in 2016, 30% of the city emissions came from the transportation system. Cars are the largest generators of emission with 96% footprint. Cars powered with gasoline composed 80% of the transportation base emissions. See figures 1 and 2. [^1]
+  According to a Greenhouse Gas emission report for NYC in 2016, 30% of the city's emissions came from transportation. Cars powered with gasoline composed 80% of the transportation base emissions. [^1]
 
 **Figure 1.** 
 
@@ -97,42 +97,27 @@ library(vembedr)
 ![](NYC EMISSIONS BY SECTOR.png)
 
 
-In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
+New York could follow the example of the Netherlands, Denmark, the United Kingdom, and Germany to incentivize bicycles and discourage car use by heavily taxing gasoline. Promoting the use of bicycles is essential to mitigate the effect of climate change and local governments *must* financial support their use.
 
+## Ethics of Climate Change Data Science
 
-**What is this article about?**
-
-This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
-
+Misleading language and unclear graphical data are used to create controversy about climate change. For instance, [the graph below](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html) was used by Interior Department employee Indur Goklany, a member of the office of deputy secretary in the early Trump administration, [to revise climate policies](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html).
 
 ![](Screen Shot 2020-12-12 at 01.23.02.png)
+(*Source:* [Mr. Goklany's presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html))
 
-(*Source:* https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)
+[Mr. Goklany was promoting the benefits of fossil fuels to human and environmental well-being](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his climate "uncertainty language" and is believed to misrepresent scientific census about climate change's detrimental effects. Without contextualizing the evolution of healthcare systems, it was false for Mr. Goklany to imply that increasing CO2 improves human life expectancy.
 
-Unfortunately, misleading language that is based on unclear graphical data is used within the debate around the belief in climate change. For instance, this graph is being used in [a slide presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html) by Mr. Indur M. Goklany, longtime Interior Department employee, who was promoted to work under the office of deputy secretary during the early days of the Trump administration to assist with the revision of climate policies([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html).
-
-Mr. Goklany was promoting the benefits of fossil fuels and carbon dioxide to human and environmental well-being [*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his "uncertainty language" about climate change and is believed to contribute to the misrepresentation scientific census about the detrimental effects of climate change *The New York Times*). 
-
-Without information about the evolution of healthcare systems with respect to this graph, it is imprecise and wrong for Mr. Indur M. Goklany to argue that the increase of CO2 improves human's life expectancy.
-Hence, to avoid misleading interpretation, our article is using trustworthy data directly from CitiBikes to display a holistic visualization and context for our discussions about the perception of climate change and the usage of Citibike in New York City.
+To avoid misleading interpretation, our article uses data directly from CitiBikes to visualize and contextualize our discussions carbon emissions and the usage of Citibike in New York City.
 
 
-## Our data:
+## Why Citibikes?
 
-Note : The data that we used was [citibikenyc](https://www.citibikenyc.com/system-data).  Trips made by staff members in their labor activities were removed as well as any trips lower than 60 second as they were false starts. 
+The data that we used was [citibikenyc](https://www.citibikenyc.com/system-data). 
 
-  With our data we wanted to find the relationship between bike usage in NYC and weather temperature. Thus, this article will help us to determine whether age and gender are drivers for use the citibike system in New York and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
+  Bikes are an easy way for individuals to reduce their carbon footprint; this article investigates factors that affect bike usage in NYC. We want to determine how a user's age and gender, station locations, or weather conditions could drive use of the citibike system in New York. We also seek to expose the areas of higher confluence in the city for the use of these bikes. Once interpreting this data, we can determine potential reasons why or why not people use Citibikes, with the ultimate goal of increasing the use of carbon-neutral transportation.
 
- **Exploratory data analysis**
-
-```{sql, connection=db, output.var = "Trips_during_school_year"}
-SELECT duration, birth_year, gender, start_station_id FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber'
-AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
-```
-
-  Our first step consisted in grouping those users younger than 30 and older than 30 to know which group uses the bike system more frequently.
+# How do age and gender affect Citibike use?
 
 ```{sql connection=db, output.var = "Trips"}
 SELECT duration, birth_year, gender
@@ -147,12 +132,9 @@ Trips_Age <- Trips %>%
   mutate(age_category = ifelse(birth_year >= 1987, "Thirthy or Younger", "Older Than Thirty"))
 ```
 
-
-  Having extracted the data from SQL, in our first graph we plotted it the total trips people of each age group took in 2017. We found that  older than 30-year old people use the systems more than 30-year old or younger. With people aged 25 and 32 being the group using the bike system more than 25 thousand trips a year.
+  In order to examine the association between age or gender and bike usage, we focused on demographics provided for subscriber bike trips. First, we grouped trips by the age of the user and plotted the total trips people of each age group took in 2017. Those older than 30 years use Citibikes more than those 30 or younger; age groups between 25 and 32 each took 250,000+ trips a year.
   
-  We were hoping to have more younger folks using the bike system since the common believe is that younger Americas worry about climate change more than older generations. In fact, a 2018 report by Gallup showed that because younger Americans are growing up with more exposure to the effects of Climate Change the polls often show that 70% of younger adults (ages 18-34) worry about global warming while people ages 55 and older worry less.[^2]
-  
-  Nevertheless scholar from Yale University also concluded that although it might seeem like younger Americans worry more about climate change, they dont always engage in activities to help mitigate their impacts. [^3]
+  We expected more younger folks to use Citibikes, since younger Americas worry about climate change more than older generations -- polls often show that 70% of younger adults (ages 18-34) worry about global warming while people ages 55 and older worry less.[^2] However, they don't always engage in activities to help mitigate their impacts. [^3]
 
 ```{r, warning=FALSE, fig.width=9, fig.height=7}
 Trips_Age %>% 
@@ -170,7 +152,7 @@ Trips_Age %>%
  
 ```
 
-  In our second graph we wanted to find out which gender is more likely to use the bike system in New York City independent of the age. Our coding displayed that men ride the public bikes more women.This results were unexpected since the general thought portrays women are more mindful of activities that help the environment. refer to this article by the Guardian.com [The eco gender gap: why is saving the planet seen as women’s work?](https://www.theguardian.com/environment/2020/feb/06/eco-gender-gap-why-saving-planet-seen-womens-work). In any way we thought that the fact that in NYC more men that women use the bike system has to do with other variables such outfit women wear and the type of jobs they hold without necessarily compromising their concern for climate change. However, this is just our opinion not proven scientifically.
+  Our second graph examines which gender used Citibikes more within age groups. Men ride the bikes more than women, which was unexpected since [women seem more mindful of carbon emissions](https://www.theguardian.com/environment/2020/feb/06/eco-gender-gap-why-saving-planet-seen-womens-work). We believe the gender gap has to do with other variables (eg clothing or jobs), without indicating concern for climate.
 
 ```{r, fig.width=7, fig.height=5}
 Trips %>% 
@@ -189,57 +171,10 @@ Trips %>%
   
 ```
 
-```{sql connection=db, output.var = "Trips"}
-SELECT duration, birth_year, gender
- FROM citibike.trips
-WHERE duration > 600
-AND user_type = 'subscriber';
-
-```
-
-```{sql connection=db, output.var = "months_station"}
-SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
- FROM citibike.station_months 
-```
-
-What stations get the most average rides (both starts and stops)?
-Average numbers of trips per month:
-
-```{r}
-months_station_2 <- months_station %>% 
-  #select(-station_id) %>% 
-  mutate(trips = num_starts + num_stops) %>% 
-  group_by(name) %>% 
-  summarize(total_months = sum(n()),
-            total_starts = sum(num_starts), 
-          avg_trips = total_starts/total_months,
-          avg_lat = first(avg_lat),
-          avg_lon = first(avg_lon)
-         )
-```
-
-
-
-```{r}
- Top_50_Stations <- months_station_2 %>%
- head(50) 
-station_pal <- colorNumeric(
-  palette = c("#FF9999", "#FF0000"), 
-  domain = Top_50_Stations %>%
-    pull(avg_trips) %>%
-    range())
-
-
-leaflet(Top_50_Stations) %>% 
-  addTiles() %>%
-  addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
-    radius = ~sqrt(avg_trips)*3,
-    color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>", "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
-```
 
 # How does weather affect bike trips?
 
-While biking is a great way for individuals to lower their personal carbon emissions, it's not always accessible. Weather conditions can deter potential bike riders, and its challenges range from minor inconveniences (such as light rain) to major risks (such as ice). How do weather conditions affect daily citibike trips -- and, by extension, daily carbon reduction?
+Although biking lowers carbon emissions, it's not always possible. Weather conditions such as rain or ice can deter riders.
 
 ```{r}
 #loading the data
@@ -288,9 +223,9 @@ trips_weather %>%
   scale_color_manual("Type", values = c('darkblue', 'deepskyblue'), labels = c("Rain", "Snow")) +
   labs(title = "How Precipitation Affects Daily Citibike Trips", subtitle = "Excluding days without rain or snow")
 ```
-"When it rains, it pours" is not always an accurate statement. The graph above depicts the inches of rain or snow which accumulate *on days when there is precipitation* and its affect on number of Citibike trips. Few days in NYC see more than an inch of precipitation, and mild rain doesn't seem to correlate with a reduction in bike trips. However, there does seem to be a reduction in trips on days with more than 2 inches of precipitation, especially for snow. Although snowfall is relatively rare, heavy snow seems to significantly deter riders from using bikes.
+*"When it rains, it pours"?* This graph depicts inches of rain or snow (when it precipitates) against Citibike trips. More than an inch is rare, but bike trips seem to decrease on days with more than 2 inches. Snowfall especially seems to deter riders. 
 
-The biggest question left over from this graph is: If low precipitation doesn't correlate with number of trips, why is the range of trips on low-precip. days so varied? The next figure provides an answer.
+Why is the range of trips on low-precipitation days so varied? The answer is temperature.
 
 
 ```{r}
@@ -311,7 +246,7 @@ trips_weather %>%
   labs(title = "How Temperature & Precipitation Affect Daily Citibike Trips", subtitle = "Days without precipitation colored in white")
 ```
 
-This graph shows that there is association between daily temperature and number of Citibike trips, with trips increasing as temperature increases until about 80*F, at which point there is a slight decrease. Although days with precipitation generally have fewer riders than dry days at similar temperatures, there is only clear decrease in ridership on days with high precipitation.
+There is an association between daily temperature and Citibike trips, with a positive trend until about 80*F, and then a slight decrease. Only high precipitation seems to decrease ridership.
 
 
 ## Seasonal Citibike ridership: a worrying trend?
@@ -333,8 +268,46 @@ trips_weather %>%
   labs(title = "Daily Citibike Trips Throughout 2017")
 ```
 
-As earlier demonstrated, there is a strong association between temperature and Citibike ridership. This graph demonstrates that, since temperature in NYC changes drastically between seasons, the number of Citibike trips changes drastically as well. Many fewer daily rides are taken during the winter months than in summer, which could complicate any systemic shift towards bikes as a carbon-neutral transportation.
+Since temperature in NYC changes between seasons, the number of Citibike trips changes as well. Fewer daily rides are taken during the winter months than in summer, which complicates any systemic shift towards bikes as a carbon-neutral transportation.
 
+# Top 50 Stations
+
+```{sql connection=db, output.var = "months_station"}
+SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
+ FROM citibike.station_months 
+```
+
+```{r}
+months_station_2 <- months_station %>% 
+  #select(-station_id) %>% 
+  mutate(trips = num_starts + num_stops) %>% 
+  group_by(name) %>% 
+  summarize(total_months = sum(n()),
+            total_starts = sum(num_starts), 
+          avg_trips = total_starts/total_months,
+          avg_lat = first(avg_lat),
+          avg_lon = first(avg_lon)
+         )
+```
+
+```{r}
+ Top_50_Stations <- months_station_2 %>%
+ head(50) 
+station_pal <- colorNumeric(
+  palette = c("#FF9999", "#FF0000"), 
+  domain = Top_50_Stations %>%
+    pull(avg_trips) %>%
+    range())
+
+
+leaflet(Top_50_Stations) %>% 
+  addTiles() %>%
+  addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
+    radius = ~sqrt(avg_trips)*3,
+    color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>", "Average Number of Bicycles Used:", round(Top_50_Stations$avg_trips, 2)), opacity = 100)
+```
+
+Unfortunately, station locations influence bike accessibility -- these more frequented locations are more likely to be stocked with bikes. Local government should provide enough financial support to widen the availability of Citibikes, so that all New Yorkers can participate.
 
 
 ## Word count
