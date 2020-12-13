@@ -40,10 +40,8 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
-<<<<<<< HEAD
-=======
-#library(ggthemes)
->>>>>>> 2cd2375f538253bd9a5dbea104b0c01464372dba
+library(ggthemes)
+library(RColorBrewer)
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -68,7 +66,7 @@ Have you wondered about the power of bicycles to fight climate change?
 
  According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution.
 
- Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment ). The college voted to exclude Smith College’s endowment from any future investment with such industry. . This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
+ Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment). The college voted to exclude Smith College’s endowment from any future investment with such industry. . This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
 
 Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red hair girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” ![](https://www.youtube.com/watch?v=TMrtLsQbaok) Greta Thunberg, an student and environmental activist, became the youngest and most outspoken critic of the lack of global policies to fight climate change. Perhaps the most heroic act we might remember about Ms. Thunberg is her decision to sail instead of flying from Europe to the United States to attend the 2019 UN Climate Action Summit. 
 
@@ -218,77 +216,103 @@ leaflet(Top_50_Stations) %>%
                            "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
 ```
 
-# Weather Data
+# How does weather affect bike trips?
+
+While biking is a great way for individuals to lower their personal carbon emissions, it's not always accessible. Weather conditions can deter potential bike riders, and its challenges range from minor inconveniences (such as light rain) to major risks (such as ice). How do weather conditions affect daily citibike trips -- and, by extension, daily carbon reduction?
 
 ```{r}
+#loading the data
+#This weather data was accessed through NOAA and was collected in Central Park. The numbers may not exactly reflect weather conditions throughout the entire city.
 weather_data <- read.csv("weather2017.csv")
 ```
-
 ```{r}
-weather_data_long <- weather_data %>% pivot_longer(c(PRCP, SNOW), names_to = "prcp_type", values_to = "amount")
+#The reason why we reshaped the data to make it long was because we wanted to use precipitation (total precip -- both rain and snow) as one variable that we could plot against variables such as number of rides, but we also wanted to keep the distinction (so that we could see the difference in rain and snow)
+weather_data_long <- weather_data %>%
+  mutate("RAIN" = PRCP) %>% 
+  pivot_longer(c(RAIN, SNOW), names_to = "prcp_type", values_to = "amount")
 
 ```
 
 ```{sql connection=db, output.var = "all_trips"}
 SELECT CAST(start_time AS DATE) AS time
- FROM citibike.trips
+ FROM citibike.trips;
 ```
- NOTE:  to convert the date data type I used resources https://www.essentialsql.com/datatype-conversion-in-sql-using-cast-and-convert/ and https://www.w3schools.com/sql/sql_datatypes.asp
- 
-[For the count and group by I used https://www.w3schools.com/sql/sql_groupby.asp] NO LONGER RELEVANT
-
-AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
-
 ```{r}
+#Note for SQL chunk (above): to convert the date data type I used resources https://www.essentialsql.com/datatype-conversion-in-sql-using-cast-and-convert/ and https://www.w3schools.com/sql/sql_datatypes.asp
+#Converting the datetime format to only date was important for grouping the number of trips by data and for joining the trips data with the weather data (which was daily)
+
+#Since "time" is now date, grouping by time means that we can find the number of trips per day taken in the entire citibike system (subscribers AND one-time customers)
 all_trips_grouped <- all_trips %>% 
   group_by(time) %>% 
   summarize(num_trips = n())
 ```
 
 ```{r}
+#Joining the trips and weather data
 trips_weather <- weather_data_long %>% 
   full_join(all_trips_grouped, by=c('DATE'='time')) 
 
 trips_weather[is.na(trips_weather)] <- 0
 ```
-
+## The affect of precipitaion
 
 ```{r}
-#Type & amount of precipiation
+#Type & amount of precipiation against citibike trips
 trips_weather %>% 
   filter(amount > 0) %>% 
   ggplot(aes(x = amount, y = num_trips, color = prcp_type)) + 
   geom_point() +
-  scale_color_manual(values = c('green', 'deepskyblue'))
+  scale_y_continuous("Number of Citibike Trips", labels = scales::comma) +
+  scale_x_continuous("Amount of Precipitation (in)") +
+  scale_color_manual("Type", values = c('darkblue', 'deepskyblue'), labels = c("Rain", "Snow")) +
+  labs(title = "How Precipitation Affects Daily Citibike Trips", subtitle = "Excluding days without rain or snow")
 ```
+"When it rains, it pours" is not always an accurate statement. The graph above depicts the inches of rain or snow which accumulate *on days when there is precipitation* and its affect on number of Citibike trips. Few days in NYC see more than an inch of precipitation, and mild rain doesn't seem to correlate with a reduction in bike trips. However, there does seem to be a reduction in trips on days with more than 2 inches of precipitation, especially for snow. Although snowfall is relatively rare, heavy snow seems to significantly deter riders from using bikes.
+
+The biggest question left over from this graph is: If low precipitation doesn't correlate with number of trips, why is the range of trips on low-precip. days so varied? The next figure provides an answer.
+
 
 ```{r}
-#Temperature analysis
+#Temperature analysis (how temp -- and also precip -- affect number of rides)
 trips_weather %>% 
+  group_by(DATE) %>% 
+  mutate(total_prcp = sum(amount),
+         Precipitation = case_when(total_prcp >= 2 ~ 'High',  #help with case when from https://www.statology.org/conditional-mutating-r/
+                                   total_prcp >= 1 ~ 'Medium',
+                                   total_prcp < 1 ~ 'Low'))%>% 
+  ggplot(aes(x = TMAX, y = num_trips)) + 
+  geom_point(aes(color = total_prcp) ) +
+  geom_smooth(color = "grey1") +
+  scale_color_distiller("Precipitation (in)", palette = "Blues", values = c(0.001, 1), na.value = "white", direction = 1) +
+  #theme_dark() +
+  scale_y_continuous("Number of Citibike Trips", labels = scales::comma) +
+  scale_x_continuous("Daily Max. Temperature (F)") +
+  labs(title = "How Temperature & Precipitation Affect Daily Citibike Trips", subtitle = "Days without precipitation colored in white")
+```
+
+This graph shows that there is association between daily temperature and number of Citibike trips, with trips increasing as temperature increases until about 80*F, at which point there is a slight decrease. Although days with precipitation generally have fewer riders than dry days at similar temperatures, there is only clear decrease in ridership on days with high precipitation.
+
+
+## Seasonal Citibike ridership: a worrying trend?
+
+```{r}
+#Number of trips over time (ie date), also colored by temp.
+trips_weather %>%
+  #filter((DATE >= "2017-02-1") & (DATE <= "2017-03-21")) %>% 
   group_by(DATE) %>% 
   mutate(total_prcp = sum(amount),
          Precipitation = case_when(total_prcp >= 2 ~ 'High',
                                    total_prcp >= 1 ~ 'Medium',
-                                   total_prcp < 1 ~ 'Low'))%>% 
-  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
+                                   total_prcp < 1 ~ 'Low')) %>% 
+  ggplot(aes(x = DATE, y = num_trips, color = TMAX)) + 
   geom_point() +
-  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
+  scale_color_distiller("Temperature (F)", palette = "RdYlBu") +
+  scale_y_continuous("Number of Citibike Trips", labels = scales::comma) +
+  scale_x_discrete("Date in 2017", breaks = c("2017-01-01", "2017-02-01", "2017-03-01", "2017-04-01", "2017-05-01", "2017-06-01", "2017-07-01", "2017-08-01", "2017-09-01", "2017-10-01", "2017-11-01", "2017-12-01"), labels = c("Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec.")) +
+  labs(title = "Daily Citibike Trips Throughout 2017")
 ```
- case when from https://www.statology.org/conditional-mutating-r/
 
-```{r}
-trips_weather %>% 
-  group_by(DATE) %>% 
-  mutate(wind_speed = (WSF2/10)*2.2369)
-  
-```
-  mutate(Wind = case_when(total_prcp >= 2 ~ 'High',
-                                   total_prcp >= 1 ~ 'Medium',
-                                   total_prcp < 1 ~ 'Low'))%>% 
-  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
-  geom_point() +
-  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
-```
+As earlier demonstrated, there is a strong association between temperature and Citibike ridership. This graph demonstrates that, since temperature in NYC changes drastically between seasons, the number of Citibike trips changes drastically as well. Many fewer daily rides are taken during the winter months than in summer, which could complicate any systemic shift towards bikes as a carbon-neutral transportation.
 
 
 ## Analysis
