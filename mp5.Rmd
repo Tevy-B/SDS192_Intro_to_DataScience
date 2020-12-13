@@ -69,13 +69,10 @@ knitr::opts_chunk$set(
 
  According to [NASA](https://climate.nasa.gov/causes/) there are several gases in the atmosphere trapping heat. One of those gases is carbon dioxide (CO2). This gas is released into the atmosphere through various natural processes and mostly, activities caused only by humans.  Deforestation and burning of fossil fuels are the primary drivers of carbon emissions. We have increased the levels of CO2 by 47% since the industrial revolution.
 
-<<<<<<< HEAD
- Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment). The college voted to exclude Smith College’s endowment from any future investment with such industry. . This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
-=======
  Last year, in October, [Smith College divested from fossil fuels](https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/fossil-fuels-and-smith-endowment ). The college voted to exclude Smith's endowment from any future investment with such industry. 
  This was a major victory for students who pressured for such change and for the community in general. It is a step we are convinced other colleges and universities will follow as well.
 
-  Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red hair girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” (Greta Thunberg to World leaders- YouTube).
+  Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red haired girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” (Greta Thunberg to World leaders- YouTube).
 Greta Thunberg, an student and environmental activist, became the youngest and most outspoken critic of the lack of global policies to fight climate change. Perhaps the most heroic act we might remember about Ms. Thunberg is her decision to sail instead of flying from Europe to the United States to attend the 2019 UN Climate Action Summit. 
 
 
