@@ -64,6 +64,14 @@ What is this article about? [^github]
 This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
 
 
+![faulty graph](Screen Shot 2020-12-12 at 01.23.02.png)
+
+(*Image from:* https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)
+
+Unfortunately, misleading language that is based on unclear graphical data is used within the debate around the belief in climate change. For instance, this graph is being used in [a slide presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)by Mr. Indur M. Goklany, who was a longtime Interior Department employee and has promoted to work under the office of deputy secretary during the early days of the Trump administration to assist with the revision of climate policies([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). Mr. Goklany was promoting the benefits of fossil fuels and carbon dioxide to human and environmental well-being([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his "uncertainty language" about climate change and is believed to contribute to the misrepresentation scientific census about the detrimental effects of climate change(*The New York Times*). Without information about the evolution of healthcare systems with respect to this graph, it is imprecise and wrong for Mr. Indur M. Goklany to argue that the increase of CO2 improves human's life expectancy.
+Hence, to avoid misleading interpretation, our article is using trustworthy data directly from CitiBikes to display a holistic visualization and context for our discussions about the perception of climate change and the usage of Citibike in New York City.
+
+
 [^github]: Please see [our GitHub repository](https://github.com/sds192-s20/mp3-group-*) for complete code. 
 
 ## Exploratory data analysis
@@ -144,7 +152,6 @@ AND user_type = 'subscriber';
 
 ```
 
-![faulty graph](Screen Shot 2020-12-12 at 01.23.02.png)
 # Station Data
 
 ```{sql connection=db, output.var = "months_station"}
@@ -165,8 +172,7 @@ months_station_2 <- months_station %>%
           avg_trips = total_starts/total_months,
           avg_lat = first(avg_lat),
           avg_lon = first(avg_lon)
-         ) 
-round(months_station_2$avg_trips, digits = 2)
+         )
 ```
 
 
@@ -189,7 +195,7 @@ leaflet(Top_50_Stations) %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
     radius = ~sqrt(avg_trips)*3,
     color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
+                           "Average Number of Bicycles Used:", round(Top_50_Stations$avg_trips,2)),opacity = 100)
 ```
 
 
