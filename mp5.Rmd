@@ -1,4 +1,5 @@
 ---
+
 title: "**The power of Bicycles to Fight Climate Change**"
 subtitle: "SDS 192: MP5"
 author: 
@@ -6,7 +7,8 @@ author:
   affiliation: Smith College
 - name: Esa Schenck
   affiliation: Smith College
--name: Veronica Kessler  
+- name: Veronica Kessler  
+  affiliation: Smith College
 date: "`r format(Sys.Date(), '%B %e, %Y')`"
 output: 
   html_document:
@@ -40,6 +42,7 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
+library(ggthemes)
 
 db <- dbConnect(
   MySQL(), 
@@ -55,7 +58,6 @@ knitr::opts_chunk$set(
   max.print = 20
 )
 ```
-
 
 
 ## Introduction
@@ -93,6 +95,19 @@ library(vembedr)
 ![](NYC EMISSIONS BY SECTOR.png)
 
   In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
+=======
+What is this article about? [^github]
+
+This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
+
+
+![faulty graph](Screen Shot 2020-12-12 at 01.23.02.png)
+
+(*Image from:* https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)
+
+Unfortunately, misleading language that is based on unclear graphical data is used within the debate around the belief in climate change. For instance, this graph is being used in [a slide presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)by Mr. Indur M. Goklany, who was a longtime Interior Department employee and has promoted to work under the office of deputy secretary during the early days of the Trump administration to assist with the revision of climate policies([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). Mr. Goklany was promoting the benefits of fossil fuels and carbon dioxide to human and environmental well-being([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his "uncertainty language" about climate change and is believed to contribute to the misrepresentation scientific census about the detrimental effects of climate change(*The New York Times*). Without information about the evolution of healthcare systems with respect to this graph, it is imprecise and wrong for Mr. Indur M. Goklany to argue that the increase of CO2 improves human's life expectancy.
+Hence, to avoid misleading interpretation, our article is using trustworthy data directly from CitiBikes to display a holistic visualization and context for our discussions about the perception of climate change and the usage of Citibike in New York City.
+
 
 ## Our data:
 
@@ -164,7 +179,6 @@ Trips %>%
   
 ```
 
-
 ```{sql connection=db, output.var = "Trips"}
 SELECT duration, birth_year, gender
  FROM citibike.trips
@@ -172,9 +186,6 @@ WHERE duration > 600
 AND user_type = 'subscriber';
 
 ```
-
-
-**Station Data**
 
 ```{sql connection=db, output.var = "months_station"}
 SELECT station_id, name, num_starts, num_stops, avg_lat, avg_lon
@@ -208,85 +219,18 @@ station_pal <- colorNumeric(
     pull(avg_trips) %>%
     range())
 
+
 leaflet(Top_50_Stations) %>% 
   addTiles() %>%
   addCircles(lng = ~avg_lon, lat = ~avg_lat, weight = 3,
     radius = ~sqrt(avg_trips)*3,
     color = ~station_pal(avg_trips), popup = paste("<b>",Top_50_Stations$name, "</b>", "<br>",
-                           "Average Number of Bicycles Used:", Top_50_Stations$avg_trips),opacity = 100)
-```
-
-# Weather Data
-
-```{r}
-weather_data <- read.csv("weather2017.csv")
-```
-
-```{r}
-weather_data_long <- weather_data %>% pivot_longer(c(PRCP, SNOW), names_to = "prcp_type", values_to = "amount")
-
-```
-
-```{sql connection=db, output.var = "all_trips"}
-SELECT CAST(start_time AS DATE) AS time
- FROM citibike.trips
-```
- NOTE:  to convert the date data type I used resources https://www.essentialsql.com/datatype-conversion-in-sql-using-cast-and-convert/ and https://www.w3schools.com/sql/sql_datatypes.asp
- 
-[For the count and group by I used https://www.w3schools.com/sql/sql_groupby.asp] NO LONGER RELEVANT
-
-AND stop_time < '2017-06-01#' OR start_time > '2017-09-01#';
-
-```{r}
-all_trips_grouped <- all_trips %>% 
-  group_by(time) %>% 
-  summarize(num_trips = n())
-```
-
-```{r}
-trips_weather <- weather_data_long %>% 
-  full_join(all_trips_grouped, by=c('DATE'='time')) 
-
-trips_weather[is.na(trips_weather)] <- 0
+                           "Average Number of Bicycles Used:", round(Top_50_Stations$avg_trips,2)),opacity = 100)
 ```
 
 
-```{r}
-#Type & amount of precipiation
-trips_weather %>% 
-  filter(amount > 0) %>% 
-  ggplot(aes(x = amount, y = num_trips, color = prcp_type)) + 
-  geom_point() +
-  scale_color_manual(values = c('green', 'deepskyblue'))
-```
 
-```{r}
-#Temperature analysis
-trips_weather %>% 
-  group_by(DATE) %>% 
-  mutate(total_prcp = sum(amount),
-         Precipitation = case_when(total_prcp >= 2 ~ 'High',
-                                   total_prcp >= 1 ~ 'Medium',
-                                   total_prcp < 1 ~ 'Low'))%>% 
-  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
-  geom_point() +
-  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
-```
- case when from https://www.statology.org/conditional-mutating-r/
 
-```{r}
-trips_weather %>% 
-  group_by(DATE) %>% 
-  mutate(wind_speed = (WSF2/10)*2.2369)
-  
-```
-  mutate(Wind = case_when(total_prcp >= 2 ~ 'High',
-                                   total_prcp >= 1 ~ 'Medium',
-                                   total_prcp < 1 ~ 'Low'))%>% 
-  ggplot(aes(x = TMAX, y = num_trips, color = Precipitation)) + 
-  geom_point() +
-  scale_color_manual(values = c('deeppink', 'darkgray', "blue"))
-```
 
 
 ## Analysis
@@ -299,7 +243,10 @@ What did you discover?
 
 What did you *learn* about the data set your explored?  
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bbade30c6b5c5f0a8ba1f24ad9790f9d1ff230b4
 ---
 
 ## Word count
