@@ -74,6 +74,7 @@ knitr::opts_chunk$set(
   Last year we also got acquainted with the eloquence and determination of a 17 year old Swiss red hair girl. I remember her clearly for her bold statement: “How dare you? You have stolen my dreams and my childhood with your empty words” (Greta Thunberg to World leaders- YouTube).
 Greta Thunberg, an student and environmental activist, became the youngest and most outspoken critic of the lack of global policies to fight climate change. Perhaps the most heroic act we might remember about Ms. Thunberg is her decision to sail instead of flying from Europe to the United States to attend the 2019 UN Climate Action Summit. 
 
+
 ```{r, echo=FALSE}
 library(vembedr)
  embed_url("https://www.youtube.com/watch?v=TMrtLsQbaok") %>% 
@@ -94,18 +95,24 @@ library(vembedr)
 
 ![](NYC EMISSIONS BY SECTOR.png)
 
-  In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
-=======
-What is this article about? [^github]
+
+In this perspective, we could follow the example of the Netherlands, Denmark, the United Kingdom  and Germany that have incentivized the use of bicycles and discourage the use of cars by imposing heavy taxes on gasoline. Bikes can be used to reduce carbon emissions and mitigate climate change. Promoting the use of bicycles is essential to mitigate the effect of climate change and local government must facilitate adequate financial support.
+
+
+**What is this article about?**
 
 This article is about arguing whether age and gender are drivers for use the citibike system in New YorK and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
 
 
-![faulty graph](Screen Shot 2020-12-12 at 01.23.02.png)
+![](Screen Shot 2020-12-12 at 01.23.02.png)
 
-(*Image from:* https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)
+(*Source:* https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)
 
-Unfortunately, misleading language that is based on unclear graphical data is used within the debate around the belief in climate change. For instance, this graph is being used in [a slide presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html)by Mr. Indur M. Goklany, who was a longtime Interior Department employee and has promoted to work under the office of deputy secretary during the early days of the Trump administration to assist with the revision of climate policies([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). Mr. Goklany was promoting the benefits of fossil fuels and carbon dioxide to human and environmental well-being([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his "uncertainty language" about climate change and is believed to contribute to the misrepresentation scientific census about the detrimental effects of climate change(*The New York Times*). Without information about the evolution of healthcare systems with respect to this graph, it is imprecise and wrong for Mr. Indur M. Goklany to argue that the increase of CO2 improves human's life expectancy.
+Unfortunately, misleading language that is based on unclear graphical data is used within the debate around the belief in climate change. For instance, this graph is being used in [a slide presentation](https://www.documentcloud.org/documents/6566049-Benefits-of-Fossil-Fuels-and-CO2-for-Human-and.html) by Mr. Indur M. Goklany, longtime Interior Department employee, who was promoted to work under the office of deputy secretary during the early days of the Trump administration to assist with the revision of climate policies([*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html).
+
+Mr. Goklany was promoting the benefits of fossil fuels and carbon dioxide to human and environmental well-being [*The New York Times*](https://www.nytimes.com/2020/03/02/climate/goks-uncertainty-language-interior.html). He is known for his "uncertainty language" about climate change and is believed to contribute to the misrepresentation scientific census about the detrimental effects of climate change *The New York Times*). 
+
+Without information about the evolution of healthcare systems with respect to this graph, it is imprecise and wrong for Mr. Indur M. Goklany to argue that the increase of CO2 improves human's life expectancy.
 Hence, to avoid misleading interpretation, our article is using trustworthy data directly from CitiBikes to display a holistic visualization and context for our discussions about the perception of climate change and the usage of Citibike in New York City.
 
 
@@ -141,7 +148,9 @@ Trips_Age <- Trips %>%
 
 
   Having extracted the data from SQL, in our first graph we plotted it the total trips people of each age group took in 2017. We found that  older than 30-year old people use the systems more than 30-year old or younger. With people aged 25 and 32 being the group using the bike system more than 25 thousand trips a year.
+  
   We were hoping to have more younger folks using the bike system since the common believe is that younger Americas worry about climate change more than older generations. In fact, a 2018 report by Gallup showed that because younger Americans are growing up with more exposure to the effects of Climate Change the polls often show that 70% of younger adults (ages 18-34) worry about global warming while people ages 55 and older worry less.[^2]
+  
   Nevertheless scholar from Yale University also concluded that although it might seeem like younger Americans worry more about climate change, they dont always engage in activities to help mitigate their impacts. [^3]
 
 ```{r, warning=FALSE, fig.width=9, fig.height=7}
