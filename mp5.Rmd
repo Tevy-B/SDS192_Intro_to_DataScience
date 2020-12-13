@@ -40,10 +40,7 @@ library(sds192)
 library(RMySQL)
 library(leaflet)
 library(sf)
-<<<<<<< HEAD
-=======
-#library(ggthemes)
->>>>>>> 2cd2375f538253bd9a5dbea104b0c01464372dba
+
 db <- dbConnect(
   MySQL(), 
   host = "scidb.smith.edu", 
@@ -78,6 +75,7 @@ According to a Greenhouse Gas emission report for NYC in 2016, 30% of the city e
 ##Figure 1.
 
 ![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20ANNUAL%20EMISSIONS%20BY%20SOURCE.png?raw=true)
+
 ##Figure 2. 
 ![](https://github.com/sds192-f20/mp5-charlie-b/blob/9e0d79cfdd602837d10a6dcb5e8b6e46129e2c82/NYC%20EMISSIONS%20BY%20SECTOR.png?raw=true)
 
@@ -85,14 +83,11 @@ In this perspective, we could follow the example of the Netherlands, Denmark, th
 
 #Our data:
 
-Note : The data that we used was [citibikenyc](https://www.citibikenyc.com/system-data).  Trips made by staff members in their labor activities was removed as well as any trips lower than 60 second as they were false starts.
+Note : The data that we used was [citibikenyc](https://www.citibikenyc.com/system-data).  Trips made by staff members in their labor activities were removed as well as any trips lower than 60 second as they were false starts. 
 
 
 
 This article is about arguing whether age and gender are drivers for use the citibike system in New York and weather this could be a rationale tied to climate change perceptions. We also seek to expose the areas of higher confluence in the city for the use of these bikes.
-
-
-[^github]: Please see [our GitHub repository](https://github.com/sds192-s20/mp3-group-*) for complete code. 
 
 ## Exploratory data analysis
 
@@ -125,15 +120,16 @@ Trips_Age <- Trips %>%
 ```{r}
 Trips_Age %>% 
   group_by(birth_year, age_category) %>% 
-   summarize(total = sum(n())/10000) %>%
+   summarize(total = sum(n())) %>%
   ggplot(aes(x = birth_year, y = total, fill= age_category)) + 
   geom_col()+
   scale_fill_manual(values = c("blue", "lightblue"))+
   xlim(c(1957, 2005))+
    labs (title = " Use of the Citibike System According to Age in 2017")+
-  labs(y= "Total Trips in Tens of Thousands", x= "Birth Year")+
+  labs(y= "Total Trips", x= "Birth Year")+
   labs(fill= "Age Category")+
-  theme(plot.title = element_text(colour = "black", hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(colour = "black", hjust = 0.5, face = "bold"))+
+  scale_y_continuous(labels = scales::comma)
  
 ```
 
@@ -151,8 +147,9 @@ Trips %>%
    scale_fill_manual(values =c("Pink", "lightblue"))+
   labs(title = "Gender Usage of the Bike System in 2017")+
   theme(plot.title = element_text(colour = "black", hjust = 0.4, face = "bold"))+
-  labs(x= "Birth Year", y = "Total duration Trips?")+
-    labs(fill = "Gender")
+  labs(x= "Birth Year", y = "Total Trips")+
+    labs(fill = "Gender")+
+  scale_y_continuous(labels = scales::comma)
   
 ```
 
