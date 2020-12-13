@@ -82,7 +82,7 @@ library(vembedr)
    use_start_time ("1m12") %>% 
    use_align ("center")
 ```
-
+ 
 
   What does all of that has to do with the citylike system in New York City and the data presented in this project? 
 
@@ -174,9 +174,9 @@ Trips_Age %>%
 
 ```{r, fig.width=7, fig.height=5}
 Trips %>% 
-  group_by(birth_year, gender) %>% 
   filter(birth_year >= 1957, gender != 0) %>%
   mutate(gender = ifelse(gender == 1, "Male", "Female")) %>% 
+  group_by(birth_year, gender) %>% 
   summarize(total = sum(n())) %>%
   ggplot(aes(x = birth_year, y = total, fill = gender)) + 
   geom_col()+
