@@ -177,12 +177,11 @@ Trips %>%
 Although biking lowers carbon emissions, it's not always possible. Weather conditions such as rain or ice can deter riders.
 
 ```{r}
-#loading the data
-#This weather data was accessed through NOAA and was collected in Central Park. The numbers may not exactly reflect weather conditions throughout the entire city.
+#This weather data was accessed through NOAA and was collected in Central Park. The numbers may not exactly reflect weather conditions throughout the entire city
 weather_data <- read.csv("weather2017.csv")
 ```
 ```{r}
-#The reason why we reshaped the data to make it long was because we wanted to use precipitation (total precip -- both rain and snow) as one variable that we could plot against variables such as number of rides, but we also wanted to keep the distinction (so that we could see the difference in rain and snow)
+#The reason why we reshaped the data to make it long was because we wanted to use precipitation (total precipitation -- both rain and snow) as one variable that we could plot against variables such as number of rides, but we also wanted to keep the distinction (so that we could see the difference in rain and snow)
 weather_data_long <- weather_data %>%
   mutate("RAIN" = PRCP) %>% 
   pivot_longer(c(RAIN, SNOW), names_to = "prcp_type", values_to = "amount")
@@ -223,7 +222,8 @@ trips_weather %>%
   scale_color_manual("Type", values = c('darkblue', 'deepskyblue'), labels = c("Rain", "Snow")) +
   labs(title = "How Precipitation Affects Daily Citibike Trips", subtitle = "Excluding days without rain or snow")
 ```
-*"When it rains, it pours"?* This graph depicts inches of rain or snow (when it precipitates) against Citibike trips. More than an inch is rare, but bike trips seem to decrease on days with more than 2 inches. Snowfall especially seems to deter riders. 
+
+ *"When it rains, it pours"?* This graph depicts inches of rain or snow (when it precipitates) against Citibike trips. More than an inch is rare, but bike trips seem to decrease on days with more than 2 inches. Snowfall especially seems to deter riders. 
 
 Why is the range of trips on low-precipitation days so varied? The answer is temperature.
 
@@ -308,6 +308,10 @@ leaflet(Top_50_Stations) %>%
 ```
 
 Unfortunately, station locations influence bike accessibility -- these more frequented locations are more likely to be stocked with bikes. Local government should provide enough financial support to widen the availability of Citibikes, so that all New Yorkers can participate.
+
+# Final Thoughts
+
+Climate change is controversial. We were challenged trying to integrate multiple data into our project to convey a coherent narrative about climate change. We considered counterarguments about Climate change to prove how political speech can influence the public. Finally, we hope the reader finds this project as enjoyable and informative as we did.  
 
 
 ## Word count
